@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+import cities from '../data/local-content.json';
+import { atPlace, ofPlace } from '../utils/french-place';
+
+export function getStaticPaths() {
+	return cities.map((city) => ({ params: { slug: city.slug }, props: { city } }));
+}
+const { city } = Astro.props;
+const cityAt = atPlace(city.name);
+const cityOf = ofPlace(city.name);
+const epciName = city.epciName || 'l’intercommunalité locale';
+const densityLabel = city.densityLabel || 'profil communal';
+const solarSource = city.solar?.source || 'PVGIS 5.3';
+const pageTitle = `Installateur solaire ${cityAt} (${city.postalCode}) | Devis RGE`;
+const installerChecks = city.installerChecks || [
+	`Faire confirmer le PLU et les contraintes à l’adresse exacte auprès de la mairie de ${city.name}.`,
+	`Exiger une étude d’ombre et un productible adaptés aux coordonnées du chantier, pas une moyenne commerciale.`,
+	'Contrôler la qualification RGE, la décennale photovoltaïque et l’identité de l’entreprise qui réalisera la pose.',
+];
+const relatedCities = cities
+	.filter((candidate) => candidate.slug !== city.slug)
+	.map((candidate) => ({
+		...candidate,
+		distance: Math.hypot((candidate.latitude || 0) - (city.latitude || 0), (candidate.longitude || 0) - (city.longitude || 0)),
+	}))
+	.sort((a, b) => a.distance - b.distance)
+	.slice(0, 4);
+const faqs = [
+	[`Comment vérifier un installateur RGE ${cityAt} ?`, `Recherchez sa raison sociale dans l’annuaire officiel France Rénov’, vérifiez le domaine QualiPV et les dates, puis demandez une décennale couvrant explicitement le photovoltaïque à la date du chantier ${cityAt}.`],
+	[`Combien de devis comparer dans ${epciName} ?`, 'Deux ou trois devis techniques comparables suffisent : même puissance, mêmes hypothèses de production, mêmes démarches et options chiffrées séparément.'],
+	[`Le professionnel doit-il se déplacer ${cityAt} ?`, `Oui avant engagement définitif. Le profil ${densityLabel.toLowerCase()} ne remplace jamais le contrôle de la toiture, de la charpente, du tableau électrique, de l’accès et des ombres à l’adresse exacte.`]
+];
+const schema = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Service',
+		name: `Installateur solaire RGE ${cityAt}`,
+		url: `https://panneau-solaire-gironde.fr/installateur-solaire-${city.slug}/`,
+		areaServed: { '@type': 'City', name: city.name },
+		provider: { '@type': 'Organization', '@id': 'https://panneau-solaire-gironde.fr/#organization', name: 'Panneau Solaire Gironde', url: 'https://panneau-solaire-gironde.fr/' },
+		serviceType: 'Mise en relation avec installateur photovoltaïque QualiPV RGE',
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://panneau-solaire-gironde.fr/' },
+			{ '@type': 'ListItem', position: 2, name: 'Communes', item: 'https://panneau-solaire-gironde.fr/communes/' },
+			{ '@type': 'ListItem', position: 3, name: `Installateur solaire ${cityAt}` },
+		],
+	},
+];
+---
+
+<BaseLayout
+	title={pageTitle}
+	description={`Comparez des devis solaires ${cityAt} (${city.postalCode}) : contrôles RGE et décennale, productible ${solarSource}, méthode de sélection et repères de prix Gironde.`}
+	schema={schema}
+>
+	<section class="page-hero">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span>›</span><a href="/communes/">Communes</a><span>›</span><span>Installateur {city.name}</span></nav>
+			<span class="eyebrow eyebrow-amber">Méthode de sélection · vérification RGE</span>
+			<h1>Choisir un installateur solaire {cityAt}</h1>
+			<p>Comparez des propositions capables de justifier chaque choix : visite technique, production, fixation, protections, démarches et garanties. La qualification et l’assurance de chaque entreprise restent à contrôler avant signature.</p>
+			<div class="page-hero-actions"><a class="button button-primary" href="#devis-installateur">Demander mes devis →</a><a class="button button-hero-secondary" href={`/panneau-solaire-${city.slug}/`}>Voir les prix locaux</a></div>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container content-layout">
+			<article class="prose">
+				<h2>Les critères techniques à vérifier {cityAt}</h2>
+				<p>{city.installerIntro || city.localIntro}</p>
+				<p>Le professionnel doit produire un calepinage, une étude d’ombre, un schéma électrique et une simulation argumentée. À titre de contrôle, {solarSource} projette {city.market.yieldPerKwc} kWh/kWc/an aux coordonnées communales avec ses hypothèses standard ; le devis doit expliquer tout écart et l’adapter au toit réel.</p>
+				<div class="data-callout"><strong>Contexte vérifiable</strong>{city.name} compte {city.population.toLocaleString('fr-FR')} habitants sur {city.surfaceKm2.toLocaleString('fr-FR')} km² et relève de {epciName}. Ces données cadrent le territoire, mais aucune ne remplace la visite de la parcelle.</div>
+				<h2>Qualification, assurance et traçabilité</h2>
+				<p>La qualification QualiPV RGE conditionne plusieurs démarches et atteste d’un parcours de compétence. Elle ne remplace pas la vérification de l’assurance décennale, qui doit mentionner l’activité photovoltaïque.</p>
+				<ul>{installerChecks.map((check) => <li>{check}</li>)}</ul>
+				<h2>Un devis lisible et comparable</h2>
+				<p>Le repère Gironde utilisé sur ce site va de {city.priceMin.toLocaleString('fr-FR')} à {city.priceMax.toLocaleString('fr-FR')} € TTC pour des installations résidentielles courantes de 3 à 9 kWc. Ce n’est pas un prix observé spécifiquement {cityAt}. La proposition doit séparer matériel, pose, démarches et options pour rendre la comparaison objective.</p>
+				<ul><li>Référence et quantité des modules</li><li>Onduleur, optimiseurs ou micro-onduleurs</li><li>Structure adaptée à la couverture</li><li>Protections AC/DC et mise à la terre</li><li>Monitoring et accès propriétaire</li></ul>
+				<h2>Réception et suivi de production</h2>
+				<p>Après mise en service, exigez le dossier technique, les accès au monitoring, les attestations et les coordonnées du service après-vente. La première année de production sert de référence pour détecter toute dérive.</p>
+				<p>{city.territory?.context || city.heritage}</p>
+			</article>
+			<aside class="sidebar-card">
+				<span class="eyebrow">Comparatif</span><h2>Installateurs {cityAt}</h2>
+				<p>Une seule demande pour cadrer votre projet et recevoir des propositions à comparer. Vérifiez ensuite les justificatifs de l’entreprise retenue.</p>
+				<a class="button button-primary" href="#devis-installateur">Comparer gratuitement →</a>
+				<div class="sidebar-metrics"><div><span>Projection PVGIS</span><strong>{city.market.yieldPerKwc}</strong></div><div><span>Profil communal</span><strong>{densityLabel}</strong></div><div><span>Qualification à vérifier</span><strong>QualiPV</strong></div></div>
+			</aside>
+		</div>
+	</section>
+	<section id="devis-installateur" class="section section-white"><div class="container"><LeadForm city={city.name} compact={true} heading={`Recevez des devis d’installateurs ${cityAt}`} /></div></section>
+	<section class="section"><div class="container"><div class="section-heading center"><span class="eyebrow">FAQ installateur</span><h2>Bien sélectionner votre professionnel.</h2></div><div class="faq-list">{faqs.map(([q,a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div></div></section>
+	<section class="section-compact section-white">
+		<div class="container">
+			<div class="section-heading"><span class="eyebrow">Secteur proche</span><h2>Comparer aussi autour {cityOf}.</h2></div>
+			<div class="city-grid">
+				{relatedCities.map((related) => (
+					<a class="city-card" href={`/installateur-solaire-${related.slug}/`}>
+						<div class="city-card-header"><h3>{related.name}</h3><span class="postal-pill">{related.postalCode}</span></div>
+						<p>{related.epciName || 'Gironde'} · méthode de sélection RGE</p>
+						<div class="city-card-footer"><span>Voir les contrôles locaux</span><span>→</span></div>
+					</a>
+				))}
+			</div>
+		</div>
+	</section>
+</BaseLayout>

@@ -1,0 +1,148 @@
+---
+import { atPlace } from '../utils/french-place';
+
+interface Props {
+	city: string;
+	yieldPerKwc: number;
+	priceMin: number;
+	priceMax: number;
+}
+
+const { city, yieldPerKwc, priceMin, priceMax } = Astro.props;
+const cityAt = atPlace(city);
+const grossCost = Math.round(((priceMin + priceMax) / 2) / 100) * 100;
+const indicativeAid = 900;
+const annualProduction = 6 * yieldPerKwc;
+const annualSavings = Math.round(annualProduction * (0.65 * 0.25 + 0.35 * 0.04));
+const netCost = grossCost - indicativeAid;
+const payback = netCost / Math.max(annualSavings, 1);
+---
+
+<section
+	id="calculateur-patrimoine"
+	class="heritage-roi-card"
+	data-heritage-roi
+	data-yield={yieldPerKwc}
+	data-heritage-rate="0.08"
+	aria-labelledby="heritage-roi-title"
+>
+	<div class="heritage-roi-head">
+		<div>
+			<span class="eyebrow eyebrow-amber">Calculateur budget · scénario patrimoine</span>
+			<h2 id="heritage-roi-title">Mesurer le reste à charge et le retour {cityAt}</h2>
+			<p>Ce calcul financier complète le simulateur de production : ajustez le prix du projet, les aides auxquelles vous pensez être éligible et l’éventuel surcoût d’une intégration plus discrète.</p>
+		</div>
+		<span class="heritage-roi-status"><i aria-hidden="true"></i> Résultats instantanés</span>
+	</div>
+
+	<div class="heritage-roi-layout">
+		<form class="heritage-roi-controls" onsubmit="return false">
+			<label>
+				<span>Puissance étudiée</span>
+				<select data-roi-power>
+					<option value="3">3 kWc · petit foyer</option>
+					<option value="6" selected>6 kWc · foyer familial</option>
+					<option value="9">9 kWc · grande toiture</option>
+				</select>
+			</label>
+
+			<label>
+				<span>Coût brut du devis <strong data-roi-gross-label>{grossCost.toLocaleString('fr-FR')} €</strong></span>
+				<input
+					type="range"
+					min={Math.max(5000, Math.floor(priceMin / 500) * 500)}
+					max={Math.max(24000, Math.ceil(priceMax / 500) * 500)}
+					step="100"
+					value={grossCost}
+					data-roi-gross
+				/>
+			</label>
+
+			<label>
+				<span>Aides indicatives retenues <strong data-roi-aid-label>{indicativeAid.toLocaleString('fr-FR')} €</strong></span>
+				<input type="range" min="0" max="3500" step="100" value={indicativeAid} data-roi-aid />
+			</label>
+
+			<label>
+				<span>Part de production autoconsommée <strong data-roi-self-label>65 %</strong></span>
+				<input type="range" min="30" max="90" step="5" value="65" data-roi-self />
+			</label>
+
+			<label class="heritage-switch">
+				<input type="checkbox" data-roi-heritage />
+				<span>
+					<strong>Ajouter un scénario patrimoine / ABF</strong>
+					<small>+ 8 % d’hypothèse pour étude, finitions et intégration renforcées — ce n’est pas une taxe ABF.</small>
+				</span>
+			</label>
+		</form>
+
+		<div class="heritage-roi-results" aria-live="polite">
+			<div class="heritage-roi-primary">
+				<small>Reste à financer estimé</small>
+				<strong data-roi-net>{netCost.toLocaleString('fr-FR')} €</strong>
+				<p>après aides saisies et surcoût patrimoine éventuel</p>
+			</div>
+
+			<dl class="heritage-roi-breakdown">
+				<div><dt>Coût brut</dt><dd data-roi-gross-result>{grossCost.toLocaleString('fr-FR')} €</dd></div>
+				<div><dt>Aides indicatives</dt><dd class="is-deduction" data-roi-aid-result>− {indicativeAid.toLocaleString('fr-FR')} €</dd></div>
+				<div><dt>Contraintes patrimoine</dt><dd data-roi-heritage-result>0 €</dd></div>
+				<div><dt>Production modélisée</dt><dd data-roi-production>{annualProduction.toLocaleString('fr-FR')} kWh/an</dd></div>
+				<div><dt>Économies + surplus / an</dt><dd data-roi-savings>{annualSavings.toLocaleString('fr-FR')} €</dd></div>
+				<div class="is-highlight"><dt>Retour simple estimé</dt><dd data-roi-payback>{payback.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} ans</dd></div>
+			</dl>
+
+			<a class="button button-primary button-full" href="#etude">Faire chiffrer ce scénario →</a>
+			<p class="heritage-roi-note">Modèle pédagogique non contractuel : productible local de {yieldPerKwc.toLocaleString('fr-FR')} kWh/kWc/an, énergie autoconsommée valorisée à 0,25 €/kWh et surplus à 0,04 €/kWh. Les aides, tarifs, prescriptions et performances réelles doivent être confirmés avant signature.</p>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-heritage-roi]').forEach((calculator) => {
+		if (calculator.dataset.ready) return;
+		calculator.dataset.ready = 'true';
+
+		const power = calculator.querySelector<HTMLSelectElement>('[data-roi-power]');
+		const gross = calculator.querySelector<HTMLInputElement>('[data-roi-gross]');
+		const aid = calculator.querySelector<HTMLInputElement>('[data-roi-aid]');
+		const selfUse = calculator.querySelector<HTMLInputElement>('[data-roi-self]');
+		const heritage = calculator.querySelector<HTMLInputElement>('[data-roi-heritage]');
+		const money = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
+		const decimal = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 });
+
+		const set = (selector: string, value: string) => {
+			const output = calculator.querySelector<HTMLElement>(selector);
+			if (output) output.textContent = value;
+		};
+
+		const calculate = () => {
+			const installedPower = Number(power?.value || 6);
+			const grossCost = Number(gross?.value || 0);
+			const aidAmount = Math.min(Number(aid?.value || 0), grossCost);
+			const selfConsumption = Number(selfUse?.value || 65) / 100;
+			const heritageCost = heritage?.checked
+				? Math.round((grossCost * Number(calculator.dataset.heritageRate || 0.08)) / 100) * 100
+				: 0;
+			const netCost = Math.max(0, grossCost + heritageCost - aidAmount);
+			const production = Math.round(installedPower * Number(calculator.dataset.yield || 1150));
+			const savings = Math.round(production * (selfConsumption * 0.25 + (1 - selfConsumption) * 0.04));
+			const payback = netCost / Math.max(savings, 1);
+
+			set('[data-roi-gross-label]', `${money.format(grossCost)} €`);
+			set('[data-roi-aid-label]', `${money.format(aidAmount)} €`);
+			set('[data-roi-self-label]', `${Math.round(selfConsumption * 100)} %`);
+			set('[data-roi-net]', `${money.format(netCost)} €`);
+			set('[data-roi-gross-result]', `${money.format(grossCost)} €`);
+			set('[data-roi-aid-result]', `− ${money.format(aidAmount)} €`);
+			set('[data-roi-heritage-result]', heritageCost ? `+ ${money.format(heritageCost)} €` : '0 €');
+			set('[data-roi-production]', `${money.format(production)} kWh/an`);
+			set('[data-roi-savings]', `${money.format(savings)} €`);
+			set('[data-roi-payback]', `${decimal.format(payback)} ans`);
+		};
+
+		[power, gross, aid, selfUse, heritage].forEach((control) => control?.addEventListener('input', calculate));
+		calculate();
+	});
+</script>

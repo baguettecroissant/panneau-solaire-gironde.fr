@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides } from '../../data/guides';
+---
+
+<BaseLayout
+	title="Guides Panneaux Solaires Gironde — Prix, Aides & Rentabilité"
+	description="Huit guides photovoltaïques en Gironde : prix, patrimoine UNESCO, autoconsommation, aides 2026, rentabilité, batterie, vignoble et installateur RGE."
+>
+	<section class="page-hero">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span>›</span><span>Guides</span></nav>
+			<span class="eyebrow eyebrow-amber">Base de connaissances · 2026</span>
+			<h1>Comprendre avant d’investir.</h1>
+			<p>Huit analyses structurées pour relier technologie, production et finance aux réalités de la Gironde.</p>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container">
+			<div class="guide-grid">
+				{guides.map((guide) => (
+					<a class="guide-card" href={`${guide.path || `/guides/${guide.slug}`}/`}>
+						<div class="guide-image">
+							<picture>
+								<source srcset={guide.image.replace(/\.png$/, '.webp')} type="image/webp" />
+								<img src={guide.image} alt={`Guide ${guide.shortTitle}`} width="1600" height="900" loading="lazy" decoding="async" />
+							</picture>
+							<span class="guide-tag">{guide.category}</span>
+						</div>
+						<div class="guide-content">
+							<h2 style="font-size:1.28rem">{guide.shortTitle}</h2>
+							<p>{guide.description}</p>
+							<div class="guide-meta"><span>{guide.readTime}</span><span>Analyser →</span></div>
+						</div>
+					</a>
+				))}
+			</div>
+		</div>
+	</section>
+</BaseLayout>

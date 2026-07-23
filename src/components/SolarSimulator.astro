@@ -1,0 +1,106 @@
+---
+interface Props {
+	city?: string;
+	yieldPerKwc?: number;
+}
+const { city = 'Bordeaux', yieldPerKwc = 1150 } = Astro.props;
+---
+
+<section class="simulator-card" data-simulator data-base-yield={yieldPerKwc}>
+	<div class="simulator-head">
+		<div>
+			<span class="eyebrow">Simulateur photovoltaïque · {city}</span>
+			<h2>Une première estimation adaptée à votre toiture</h2>
+		</div>
+		<div class="live-badge"><span></span> Calcul en temps réel</div>
+	</div>
+	<div class="simulator-layout">
+		<div class="simulator-controls">
+			<label>
+				<span>Surface exploitable <strong data-surface-label>32 m²</strong></span>
+				<input type="range" min="15" max="80" step="1" value="32" data-surface />
+			</label>
+			<label>
+				<span>Orientation</span>
+				<select data-orientation>
+					<option value="1">Plein sud</option>
+					<option value="0.96">Sud-est</option>
+					<option value="0.96">Sud-ouest</option>
+					<option value="0.86">Est / Ouest</option>
+				</select>
+			</label>
+			<label>
+				<span>Inclinaison</span>
+				<select data-slope>
+					<option value="0.96">Faible · 15°</option>
+					<option value="1" selected>Optimale · 30°</option>
+					<option value="0.97">Tuile canal · 35°</option>
+					<option value="0.9">Forte · 50°</option>
+				</select>
+			</label>
+			<label>
+				<span>Facture mensuelle <strong data-bill-label>170 €</strong></span>
+				<input type="range" min="70" max="450" step="10" value="170" data-bill />
+			</label>
+		</div>
+		<div class="simulator-results">
+			<div class="solar-array" aria-hidden="true">
+				{Array.from({ length: 12 }).map(() => <span></span>)}
+				<i class="sun-core"></i>
+			</div>
+			<div class="result-main">
+				<small>Production annuelle estimée</small>
+				<strong><span data-production>7 105</span> <em>kWh/an</em></strong>
+				<p><span data-coverage>70</span> % de vos besoins couverts</p>
+			</div>
+			<div class="result-grid">
+				<div><small>Puissance</small><strong data-power>5,9 kWc</strong></div>
+				<div><small>Économie/an</small><strong data-savings>1 298 €</strong></div>
+				<div><small>Budget estimé</small><strong data-budget>13 800 €</strong></div>
+				<div><small>Retour</small><strong data-roi>8,3 ans</strong></div>
+			</div>
+			<a class="button button-primary button-full" href="/devis/" data-sim-cta>Affiner avec des devis gratuits →</a>
+			<small class="simulator-disclaimer">Hypothèses indicatives : base locale de {yieldPerKwc.toLocaleString('fr-FR')} kWh/kWc/an, 72 % de valorisation de la production et prix repère du kWh de 0,2516 €. L’orientation choisie ajuste le modèle ; une étude sur site reste indispensable.</small>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-simulator]').forEach((sim) => {
+		if (sim.dataset.ready) return;
+		sim.dataset.ready = 'true';
+		const surface = sim.querySelector<HTMLInputElement>('[data-surface]');
+		const orientation = sim.querySelector<HTMLSelectElement>('[data-orientation]');
+		const slope = sim.querySelector<HTMLSelectElement>('[data-slope]');
+		const bill = sim.querySelector<HTMLInputElement>('[data-bill]');
+		const cta = sim.querySelector<HTMLAnchorElement>('[data-sim-cta]');
+		const fmt = new Intl.NumberFormat('fr-FR');
+		const set = (selector: string, value: string) => {
+			const el = sim.querySelector<HTMLElement>(selector);
+			if (el) el.textContent = value;
+		};
+		const calculate = () => {
+			const sqm = Number(surface?.value || 32);
+			const monthlyBill = Number(bill?.value || 170);
+			const panels = Math.max(4, Math.floor(sqm / 2));
+			const power = panels * 0.44;
+			const production = Math.round(power * Number(sim.dataset.baseYield || 1150) * Number(orientation?.value || 1) * Number(slope?.value || 1));
+			const annualUse = (monthlyBill * 12) / 0.2516;
+			const coverage = Math.min(92, Math.round((production * 0.72 / annualUse) * 100));
+			const savings = Math.round(production * 0.72 * 0.2516 + production * 0.28 * 0.04);
+			const budget = Math.round((6900 + power * 1180) / 100) * 100;
+			const roi = budget / Math.max(savings, 1);
+			set('[data-surface-label]', `${sqm} m²`);
+			set('[data-bill-label]', `${monthlyBill} €`);
+			set('[data-production]', fmt.format(production));
+			set('[data-coverage]', String(coverage));
+			set('[data-power]', `${power.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} kWc`);
+			set('[data-savings]', `${fmt.format(savings)} €`);
+			set('[data-budget]', `${fmt.format(budget)} €`);
+			set('[data-roi]', `${roi.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} ans`);
+			if (cta) cta.href = `/devis/?surface=${sqm}&orientation=${encodeURIComponent(orientation?.selectedOptions[0]?.textContent || 'Plein sud')}&bill=${monthlyBill}`;
+		};
+		[surface, orientation, slope, bill].forEach((input) => input?.addEventListener('input', calculate));
+		calculate();
+	});
+</script>

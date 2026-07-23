@@ -1,0 +1,743 @@
+{
+  "33000": [
+    "Bordeaux"
+  ],
+  "33100": [
+    "Bordeaux"
+  ],
+  "33110": [
+    "Le Bouscat"
+  ],
+  "33112": [
+    "Saint-Laurent-Médoc"
+  ],
+  "33113": [
+    "Bourideys",
+    "Cazalis",
+    "Origne",
+    "Saint-Léger-de-Balson",
+    "Saint-Symphorien"
+  ],
+  "33114": [
+    "Le Barp"
+  ],
+  "33115": [
+    "La Teste-de-Buch"
+  ],
+  "33120": [
+    "Arcachon"
+  ],
+  "33121": [
+    "Carcans"
+  ],
+  "33123": [
+    "Le Verdon-sur-Mer"
+  ],
+  "33124": [
+    "Aillas",
+    "Auros",
+    "Berthez",
+    "Brannens",
+    "Brouqueyran",
+    "Lados",
+    "Savignac"
+  ],
+  "33125": [
+    "Hostens",
+    "Le Tuzan",
+    "Louchats",
+    "Saint-Magne"
+  ],
+  "33126": [
+    "Fronsac",
+    "La Rivière",
+    "Saint-Aignan",
+    "Saint-Michel-de-Fronsac"
+  ],
+  "33127": [
+    "Martignas-sur-Jalle",
+    "Saint-Jean-d'Illac"
+  ],
+  "33130": [
+    "Bègles"
+  ],
+  "33133": [
+    "Galgon"
+  ],
+  "33138": [
+    "Lanton"
+  ],
+  "33140": [
+    "Cadaujac",
+    "Villenave-d'Ornon"
+  ],
+  "33141": [
+    "Saillans",
+    "Villegouge"
+  ],
+  "33150": [
+    "Cenon"
+  ],
+  "33160": [
+    "Saint-Aubin-de-Médoc",
+    "Saint-Médard-en-Jalles",
+    "Salaunes"
+  ],
+  "33170": [
+    "Gradignan"
+  ],
+  "33180": [
+    "Saint-Estèphe",
+    "Saint-Seurin-de-Cadourne",
+    "Vertheuil"
+  ],
+  "33185": [
+    "Le Haillan"
+  ],
+  "33190": [
+    "Bagas",
+    "Barie",
+    "Bassanne",
+    "Blaignac",
+    "Bourdelles",
+    "Camiran",
+    "Casseuil",
+    "Floudès",
+    "Fontet",
+    "Fossès-et-Baleyssac",
+    "Gironde-sur-Dropt",
+    "Hure",
+    "La Réole",
+    "Lamothe-Landerron",
+    "Les Esseintes",
+    "Loubens",
+    "Loupiac-de-la-Réole",
+    "Mongauzy",
+    "Montagoudin",
+    "Morizès",
+    "Noaillac",
+    "Pondaurat",
+    "Puybarban",
+    "Saint-Exupéry",
+    "Saint-Hilaire-de-la-Noaille",
+    "Saint-Laurent-du-Plan",
+    "Saint-Michel-de-Lapujade",
+    "Saint-Sève"
+  ],
+  "33200": [
+    "Bordeaux"
+  ],
+  "33210": [
+    "Bieujac",
+    "Bommes",
+    "Castets et Castillon",
+    "Coimères",
+    "Fargues",
+    "Langon",
+    "Léogeats",
+    "Mazères",
+    "Preignac",
+    "Pujols-sur-Ciron",
+    "Roaillan",
+    "Saint-Loubert",
+    "Saint-Pardon-de-Conques",
+    "Saint-Pierre-de-Mons",
+    "Sauternes",
+    "Toulenne"
+  ],
+  "33220": [
+    "Caplong",
+    "Eynesse",
+    "La Roquille",
+    "Les Lèves-et-Thoumeyragues",
+    "Ligueux",
+    "Margueron",
+    "Pineuilh",
+    "Riocaud",
+    "Saint-André-et-Appelles",
+    "Saint-Avit-de-Soulège",
+    "Saint-Avit-Saint-Nazaire",
+    "Saint-Philippe-du-Seignal",
+    "Saint-Quentin-de-Caplong",
+    "Sainte-Foy-la-Grande"
+  ],
+  "33230": [
+    "Abzac",
+    "Bayas",
+    "Chamadelle",
+    "Coutras",
+    "Guîtres",
+    "Lagorce",
+    "Le Fieu",
+    "Les Églisottes-et-Chalaures",
+    "Les Peintures",
+    "Maransin",
+    "Saint-Christophe-de-Double",
+    "Saint-Médard-de-Guizières"
+  ],
+  "33240": [
+    "Asques",
+    "Cadillac-en-Fronsadais",
+    "Cubzac-les-Ponts",
+    "Gauriaguet",
+    "La Lande-de-Fronsac",
+    "Lugon-et-l'Île-du-Carnay",
+    "Mouillac",
+    "Périssac",
+    "Peujard",
+    "Saint-André-de-Cubzac",
+    "Saint-Genès-de-Fronsac",
+    "Saint-Germain-de-la-Rivière",
+    "Saint-Gervais",
+    "Saint-Laurent-d'Arce",
+    "Saint-Romain-la-Virvée",
+    "Tarnès",
+    "Val de Virvée",
+    "Vérac",
+    "Virsac"
+  ],
+  "33250": [
+    "Cissac-Médoc",
+    "Pauillac",
+    "Saint-Julien-Beychevelle",
+    "Saint-Sauveur"
+  ],
+  "33260": [
+    "La Teste-de-Buch"
+  ],
+  "33270": [
+    "Bouliac",
+    "Floirac"
+  ],
+  "33290": [
+    "Blanquefort",
+    "Le Pian-Médoc",
+    "Ludon-Médoc",
+    "Parempuyre"
+  ],
+  "33300": [
+    "Bordeaux"
+  ],
+  "33310": [
+    "Lormont"
+  ],
+  "33320": [
+    "Eysines",
+    "Le Taillan-Médoc"
+  ],
+  "33330": [
+    "Saint-Christophe-des-Bardes",
+    "Saint-Émilion",
+    "Saint-Étienne-de-Lisse",
+    "Saint-Hippolyte",
+    "Saint-Laurent-des-Combes",
+    "Saint-Pey-d'Armens",
+    "Saint-Sulpice-de-Faleyrens",
+    "Vignonet"
+  ],
+  "33340": [
+    "Bégadan",
+    "Blaignan-Prignac",
+    "Civrac-en-Médoc",
+    "Couquèques",
+    "Gaillan-en-Médoc",
+    "Lesparre-Médoc",
+    "Ordonnac",
+    "Queyrac",
+    "Saint-Christoly-Médoc",
+    "Saint-Germain-d'Esteuil",
+    "Saint-Yzans-de-Médoc",
+    "Valeyrac"
+  ],
+  "33350": [
+    "Belvès-de-Castillon",
+    "Bossugan",
+    "Castillon-la-Bataille",
+    "Civrac-sur-Dordogne",
+    "Doulezon",
+    "Flaujagues",
+    "Gardegan-et-Tourtirac",
+    "Les Salles-de-Castillon",
+    "Mérignas",
+    "Mouliets-et-Villemartin",
+    "Pujols",
+    "Ruch",
+    "Saint-Genès-de-Castillon",
+    "Saint-Magne-de-Castillon",
+    "Saint-Pey-de-Castets",
+    "Saint-Philippe-d'Aiguilhe",
+    "Sainte-Colombe",
+    "Sainte-Florence",
+    "Sainte-Radegonde",
+    "Sainte-Terre"
+  ],
+  "33360": [
+    "Camblanes-et-Meynac",
+    "Carignan-de-Bordeaux",
+    "Cénac",
+    "Latresne",
+    "Lignan-de-Bordeaux",
+    "Quinsac"
+  ],
+  "33370": [
+    "Artigues-près-Bordeaux",
+    "Bonnetan",
+    "Fargues-Saint-Hilaire",
+    "Loupes",
+    "Pompignac",
+    "Sallebœuf",
+    "Tresses",
+    "Yvrac"
+  ],
+  "33380": [
+    "Biganos",
+    "Marcheprime",
+    "Mios"
+  ],
+  "33390": [
+    "Anglade",
+    "Berson",
+    "Blaye",
+    "Campugnan",
+    "Cars",
+    "Cartelègue",
+    "Eyrans",
+    "Fours",
+    "Mazion",
+    "Plassac",
+    "Saint-Androny",
+    "Saint-Genès-de-Blaye",
+    "Saint-Martin-Lacaussade",
+    "Saint-Paul",
+    "Saint-Seurin-de-Cursac"
+  ],
+  "33400": [
+    "Talence"
+  ],
+  "33410": [
+    "Béguey",
+    "Cadillac-sur-Garonne",
+    "Cardan",
+    "Donzac",
+    "Gabarnac",
+    "Laroque",
+    "Loupiac",
+    "Monprimblanc",
+    "Mourens",
+    "Omet",
+    "Rions",
+    "Sainte-Croix-du-Mont"
+  ],
+  "33420": [
+    "Branne",
+    "Cabara",
+    "Camiac-et-Saint-Denis",
+    "Daignac",
+    "Dardenac",
+    "Espiet",
+    "Génissac",
+    "Grézillac",
+    "Guillac",
+    "Jugazan",
+    "Lugaignac",
+    "Moulon",
+    "Naujan-et-Postiac",
+    "Rauzan",
+    "Saint-Aubin-de-Branne",
+    "Saint-Jean-de-Blaignac",
+    "Saint-Vincent-de-Pertignas",
+    "Tizac-de-Curton"
+  ],
+  "33430": [
+    "Aubiac",
+    "Bazas",
+    "Bernos-Beaulac",
+    "Birac",
+    "Cazats",
+    "Cudos",
+    "Gajac",
+    "Gans",
+    "Le Nizan",
+    "Lignan-de-Bazas",
+    "Marimbault",
+    "Saint-Côme",
+    "Sauviac"
+  ],
+  "33440": [
+    "Ambarès-et-Lagrave",
+    "Saint-Louis-de-Montferrand",
+    "Saint-Vincent-de-Paul"
+  ],
+  "33450": [
+    "Izon",
+    "Montussan",
+    "Saint-Loubès",
+    "Saint-Sulpice-et-Cameyrac"
+  ],
+  "33460": [
+    "Arcins",
+    "Arsac",
+    "Cussac-Fort-Médoc",
+    "Labarde",
+    "Lamarque",
+    "Macau",
+    "Margaux-Cantenac",
+    "Soussans"
+  ],
+  "33470": [
+    "Gujan-Mestras",
+    "Le Teich"
+  ],
+  "33480": [
+    "Avensan",
+    "Brach",
+    "Castelnau-de-Médoc",
+    "Listrac-Médoc",
+    "Moulis-en-Médoc",
+    "Sainte-Hélène"
+  ],
+  "33490": [
+    "Caudrot",
+    "Le Pian-sur-Garonne",
+    "Saint-André-du-Bois",
+    "Saint-Germain-de-Grave",
+    "Saint-Macaire",
+    "Saint-Maixant",
+    "Saint-Martial",
+    "Saint-Martin-de-Sescas",
+    "Saint-Pierre-d'Aurillac",
+    "Sainte-Foy-la-Longue",
+    "Semens",
+    "Verdelais"
+  ],
+  "33500": [
+    "Arveyres",
+    "Lalande-de-Pomerol",
+    "Les Billaux",
+    "Libourne",
+    "Néac",
+    "Pomerol"
+  ],
+  "33510": [
+    "Andernos-les-Bains"
+  ],
+  "33520": [
+    "Bruges"
+  ],
+  "33530": [
+    "Bassens"
+  ],
+  "33540": [
+    "Blasimon",
+    "Castelmoron-d'Albret",
+    "Castelviel",
+    "Caumont",
+    "Cleyrac",
+    "Coirac",
+    "Daubèze",
+    "Gornac",
+    "Landerrouet-sur-Ségur",
+    "Mauriac",
+    "Mesterrieux",
+    "Saint-Brice",
+    "Saint-Félix-de-Foncaude",
+    "Saint-Hilaire-du-Bois",
+    "Saint-Laurent-du-Bois",
+    "Saint-Martin-de-Lerm",
+    "Saint-Martin-du-Puy",
+    "Saint-Sulpice-de-Pommiers",
+    "Sauveterre-de-Guyenne"
+  ],
+  "33550": [
+    "Capian",
+    "Haux",
+    "Langoiran",
+    "Le Tourne",
+    "Lestiac-sur-Garonne",
+    "Paillet",
+    "Tabanac",
+    "Villenave-de-Rions"
+  ],
+  "33560": [
+    "Carbon-Blanc",
+    "Sainte-Eulalie"
+  ],
+  "33570": [
+    "Francs",
+    "Les Artigues-de-Lussac",
+    "Lussac",
+    "Montagne",
+    "Petit-Palais-et-Cornemps",
+    "Puisseguin",
+    "Saint-Cibard",
+    "Tayac"
+  ],
+  "33580": [
+    "Cours-de-Monségur",
+    "Coutures",
+    "Dieulivol",
+    "Le Puy",
+    "Monségur",
+    "Neuffons",
+    "Rimons",
+    "Roquebrune",
+    "Saint-Ferme",
+    "Saint-Sulpice-de-Guilleragues",
+    "Saint-Vivien-de-Monségur",
+    "Sainte-Gemme",
+    "Taillecavat"
+  ],
+  "33590": [
+    "Grayan-et-l'Hôpital",
+    "Jau-Dignac-et-Loirac",
+    "Saint-Vivien-de-Médoc",
+    "Talais",
+    "Vensac"
+  ],
+  "33600": [
+    "Pessac"
+  ],
+  "33610": [
+    "Canéjan",
+    "Cestas"
+  ],
+  "33620": [
+    "Cavignac",
+    "Cézac",
+    "Cubnezais",
+    "Lapouyade",
+    "Laruscade",
+    "Marcenais",
+    "Marsas",
+    "Saint-Mariens",
+    "Tizac-de-Lapouyade"
+  ],
+  "33640": [
+    "Arbanats",
+    "Ayguemorte-les-Graves",
+    "Beautiran",
+    "Castres-Gironde",
+    "Isle-Saint-Georges",
+    "Portets"
+  ],
+  "33650": [
+    "Cabanac-et-Villagrains",
+    "La Brède",
+    "Martillac",
+    "Saint-Médard-d'Eyrans",
+    "Saint-Morillon",
+    "Saint-Selve",
+    "Saucats"
+  ],
+  "33660": [
+    "Camps-sur-l'Isle",
+    "Gours",
+    "Porchères",
+    "Puynormand",
+    "Saint-Antoine-sur-l'Isle",
+    "Saint-Sauveur-de-Puynormand",
+    "Saint-Seurin-sur-l'Isle"
+  ],
+  "33670": [
+    "Blésignac",
+    "Créon",
+    "Cursan",
+    "La Sauve",
+    "Le Pout",
+    "Madirac",
+    "Sadirac",
+    "Saint-Genès-de-Lombaud",
+    "Saint-Léon"
+  ],
+  "33680": [
+    "Lacanau",
+    "Le Porge",
+    "Le Temple",
+    "Saumos"
+  ],
+  "33690": [
+    "Cauvignac",
+    "Cours-les-Bains",
+    "Grignols",
+    "Labescau",
+    "Lavazan",
+    "Marions",
+    "Masseilles",
+    "Sendets",
+    "Sigalens",
+    "Sillas"
+  ],
+  "33700": [
+    "Mérignac"
+  ],
+  "33710": [
+    "Bayon-sur-Gironde",
+    "Bourg",
+    "Comps",
+    "Gauriac",
+    "Lansac",
+    "Mombrier",
+    "Prignac-et-Marcamps",
+    "Pugnac",
+    "Saint-Ciers-de-Canesse",
+    "Saint-Seurin-de-Bourg",
+    "Saint-Trojan",
+    "Samonac",
+    "Tauriac",
+    "Teuillac",
+    "Villeneuve"
+  ],
+  "33720": [
+    "Barsac",
+    "Budos",
+    "Cérons",
+    "Guillos",
+    "Illats",
+    "Landiras",
+    "Podensac",
+    "Saint-Michel-de-Rieufret",
+    "Virelade"
+  ],
+  "33730": [
+    "Balizac",
+    "Noaillan",
+    "Pompéjac",
+    "Préchac",
+    "Uzeste",
+    "Villandraut"
+  ],
+  "33740": [
+    "Arès"
+  ],
+  "33750": [
+    "Baron",
+    "Beychac-et-Caillau",
+    "Cadarsac",
+    "Camarsac",
+    "Croignon",
+    "Nérigean",
+    "Saint-Germain-du-Puch",
+    "Saint-Quentin-de-Baron"
+  ],
+  "33760": [
+    "Baigneaux",
+    "Bellebat",
+    "Bellefond",
+    "Cessac",
+    "Courpiac",
+    "Escoussans",
+    "Faleyras",
+    "Frontenac",
+    "Ladaux",
+    "Lugasson",
+    "Martres",
+    "Montignac",
+    "Porte-de-Benauge",
+    "Romagne",
+    "Saint-Pierre-de-Bat",
+    "Soulignac",
+    "Targon"
+  ],
+  "33770": [
+    "Salles"
+  ],
+  "33780": [
+    "Soulac-sur-Mer"
+  ],
+  "33790": [
+    "Auriolles",
+    "Cazaugitat",
+    "Landerrouat",
+    "Listrac-de-Durèze",
+    "Massugas",
+    "Pellegrue",
+    "Saint-Antoine-du-Queyret",
+    "Soussac"
+  ],
+  "33800": [
+    "Bordeaux"
+  ],
+  "33810": [
+    "Ambès"
+  ],
+  "33820": [
+    "Braud-et-Saint-Louis",
+    "Étauliers",
+    "Pleine-Selve",
+    "Saint-Aubin-de-Blaye",
+    "Saint-Ciers-sur-Gironde",
+    "Saint-Palais",
+    "Val-de-Livenne"
+  ],
+  "33830": [
+    "Belin-Béliet",
+    "Lugos"
+  ],
+  "33840": [
+    "Captieux",
+    "Escaudes",
+    "Giscos",
+    "Goualade",
+    "Lartigue",
+    "Lerm-et-Musset",
+    "Lucmau",
+    "Saint-Michel-de-Castelnau"
+  ],
+  "33850": [
+    "Léognan"
+  ],
+  "33860": [
+    "Donnezac",
+    "Reignac",
+    "Val-de-Livenne"
+  ],
+  "33870": [
+    "Vayres"
+  ],
+  "33880": [
+    "Baurech",
+    "Cambes",
+    "Saint-Caprais-de-Bordeaux"
+  ],
+  "33890": [
+    "Coubeyrac",
+    "Gensac",
+    "Juillac",
+    "Pessac-sur-Dordogne"
+  ],
+  "33910": [
+    "Bonzac",
+    "Sablons",
+    "Saint-Ciers-d'Abzac",
+    "Saint-Denis-de-Pile",
+    "Saint-Martin-de-Laye",
+    "Saint-Martin-du-Bois",
+    "Savignac-de-l'Isle"
+  ],
+  "33920": [
+    "Civrac-de-Blaye",
+    "Générac",
+    "Saint-Christoly-de-Blaye",
+    "Saint-Girons-d'Aiguevives",
+    "Saint-Savin",
+    "Saint-Vivien-de-Blaye",
+    "Saint-Yzan-de-Soudiac",
+    "Saugon"
+  ],
+  "33930": [
+    "Vendays-Montalivet"
+  ],
+  "33950": [
+    "Lège-Cap-Ferret"
+  ],
+  "33970": [
+    "Lège-Cap-Ferret"
+  ],
+  "33980": [
+    "Audenge"
+  ],
+  "33990": [
+    "Hourtin",
+    "Naujac-sur-Mer"
+  ]
+}

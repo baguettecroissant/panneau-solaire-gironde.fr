@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Guide } from '../data/guides';
+
+interface Props {
+	guide: Guide;
+	canonical?: string;
+}
+const { guide, canonical = `/guides/${guide.slug}` } = Astro.props;
+const canonicalPath = canonical.endsWith('/') ? canonical : `${canonical}/`;
+const canonicalUrl = new URL(canonicalPath, 'https://panneau-solaire-gironde.fr').toString();
+const optimizedImage = guide.image.replace(/\.png$/, '.webp');
+const schema = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Article',
+		headline: guide.title,
+		description: guide.description,
+		image: `https://panneau-solaire-gironde.fr${optimizedImage}`,
+		mainEntityOfPage: canonicalUrl,
+		articleSection: guide.category,
+		inLanguage: 'fr-FR',
+		datePublished: '2026-07-23',
+		dateModified: '2026-07-23',
+		author: { '@type': 'Organization', name: 'Panneau Solaire Gironde' },
+		publisher: { '@type': 'Organization', name: 'Panneau Solaire Gironde' },
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: guide.faqs.map(([q, a]) => ({
+			'@type': 'Question',
+			name: q,
+			acceptedAnswer: { '@type': 'Answer', text: a },
+		})),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://panneau-solaire-gironde.fr/' },
+			{ '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://panneau-solaire-gironde.fr/guides/' },
+			{ '@type': 'ListItem', position: 3, name: guide.shortTitle, item: canonicalUrl },
+		],
+	},
+];
+---
+
+<BaseLayout
+	title={`${guide.shortTitle} | Guide solaire Gironde 2026`}
+	description={guide.description}
+	canonical={canonicalPath}
+	image={optimizedImage}
+	imageAlt={`Illustration du guide : ${guide.shortTitle}`}
+	ogType="article"
+	publishedTime="2026-07-23"
+	modifiedTime="2026-07-23"
+	schema={schema}
+>
+	<section class="page-hero">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span>›</span><a href="/guides/">Guides</a><span>›</span><span>{guide.category}</span></nav>
+			<span class="eyebrow eyebrow-amber">{guide.category} · Analyse 2026</span>
+			<h1>{guide.title}</h1>
+			<p>{guide.description}</p>
+			<div class="page-hero-actions"><a class="button button-primary" href="/devis/">Demander mes devis →</a><span class="button button-hero-secondary" style="pointer-events:none">{guide.readTime} de lecture</span></div>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container content-layout">
+			<article class="prose">
+				<picture>
+					<source srcset={optimizedImage} type="image/webp" />
+					<img src={guide.image} alt={`Illustration du guide : ${guide.shortTitle}`} width="1600" height="900" loading="lazy" decoding="async" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:14px; margin-bottom:35px; box-shadow:var(--shadow-md)" />
+				</picture>
+				<p style="font-size:1.12rem; color:var(--text); font-weight:600">{guide.intro}</p>
+				{guide.sections.map((section) => (
+					<section>
+						<h2>{section.heading}</h2>
+						{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+						{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}
+					</section>
+				))}
+				<div class="data-callout"><strong>Conclusion opérationnelle</strong>Demandez une étude qui documente les hypothèses de production, la part autoconsommée, le prix du matériel, les garanties et les flux financiers sur 25 ans.</div>
+				<p>Pour approfondir, consultez aussi <a href="/tarifs/">les tarifs solaires 2026</a>, <a href="/communes/">les données de votre commune</a> et notre <a href="/devis/">simulateur de projet</a>.</p>
+			</article>
+			<aside class="sidebar-card">
+				<span class="eyebrow">Devis personnalisés</span>
+				<h2>Passez des données générales à votre toiture.</h2>
+				<p>Production, puissance et rentabilité calculées pour votre adresse en Gironde.</p>
+				<a class="button button-primary" href="/devis/">Demander mes devis →</a>
+				<div class="sidebar-metrics">
+					<div><span>Source solaire</span><strong>PVGIS 5.3</strong></div>
+					<div><span>Gironde modélisée</span><strong>1 245–1 342 kWh/kWc/an</strong></div>
+					<div><span>Département</span><strong>33</strong></div>
+				</div>
+			</aside>
+		</div>
+	</section>
+	<section class="section section-white">
+		<div class="container">
+			<div class="section-heading center"><span class="eyebrow">Questions liées au guide</span><h2>Les réponses essentielles.</h2></div>
+			<div class="faq-list">{guide.faqs.map(([q,a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container"><div class="final-cta"><span class="eyebrow eyebrow-amber">Étape suivante</span><h2>Demandez vos devis en Gironde.</h2><p>Recevez des propositions adaptées, comparez-les, puis vérifiez qualification QualiPV RGE et assurance décennale.</p><a class="button button-secondary" href="/devis/">Demander mes devis gratuits →</a></div></div>
+	</section>
+</BaseLayout>

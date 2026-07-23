@@ -1,0 +1,7 @@
+---
+import GuideArticle from '../components/GuideArticle.astro';
+import { guidesBySlug } from '../data/guides';
+const guide = guidesBySlug['aides-financieres-solaire-gironde-2026'];
+---
+
+<GuideArticle guide={guide} canonical="/aides-panneau-solaire-33" />

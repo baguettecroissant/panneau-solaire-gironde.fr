@@ -1,0 +1,26 @@
+---
+const path = Astro.url.pathname;
+const isQuotePage = path === '/devis' || path === '/devis/';
+
+const target = path.startsWith('/panneau-solaire-')
+	? '#etude'
+	: path.startsWith('/installateur-solaire-')
+		? '#devis-installateur'
+		: '/devis/';
+---
+
+{!isQuotePage && (
+	<a class="mobile-sticky-cta" href={target} aria-label="Demander mes devis solaires gratuits" data-mobile-sticky-cta>
+		<span>Demander mes devis gratuits</span>
+		<span aria-hidden="true">→</span>
+	</a>
+)}
+
+<script>
+	const cta = document.querySelector<HTMLElement>('[data-mobile-sticky-cta]');
+	if (cta) {
+		const updateVisibility = () => cta.classList.toggle('is-visible', window.scrollY > 240);
+		updateVisibility();
+		window.addEventListener('scroll', updateVisibility, { passive: true });
+	}
+</script>

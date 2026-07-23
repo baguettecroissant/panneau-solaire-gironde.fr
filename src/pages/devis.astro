@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'Service',
+	name: 'Demande de devis panneaux solaires gratuite en Gironde',
+	provider: { '@type': 'Organization', name: 'Panneau Solaire Gironde' },
+	areaServed: 'Gironde',
+	serviceType: 'Demande de devis et mise en relation photovoltaïque',
+};
+---
+
+<BaseLayout
+	title="Devis Panneaux Solaires Gironde — Gratuits 2026"
+	description="Demandez vos devis panneaux solaires gratuits dans le 33 : production estimée, puissance, rentabilité et professionnels QualiPV RGE en Gironde."
+	schema={schema}
+>
+	<section class="page-hero">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span>›</span><span>Devis gratuits</span></nav>
+			<span class="eyebrow eyebrow-amber">Devis gratuits · 3 minutes</span>
+			<h1>Obtenez vos devis panneaux solaires en Gironde.</h1>
+			<p>Décrivez votre projet pour recevoir des propositions adaptées, avec une estimation de puissance, de production et de rentabilité.</p>
+			<div class="local-data-strip">
+				<div><strong>100 %</strong><span>gratuit et sans engagement</span></div>
+				<div><strong>33xxx</strong><span>Gironde uniquement</span></div>
+				<div><strong>QualiPV</strong><span>professionnels qualifiés RGE</span></div>
+				<div><strong>25 ans</strong><span>horizon d’analyse</span></div>
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container">
+			<LeadForm heading="Demandez vos devis photovoltaïques gratuits" />
+		</div>
+	</section>
+	<section class="section-compact section-white">
+		<div class="container">
+			<div class="feature-grid">
+				<div class="feature-card"><div class="feature-icon">A</div><h3>Données minimales</h3><p>Nous ne demandons que les informations nécessaires au dimensionnement et à la prise de contact.</p></div>
+				<div class="feature-card"><div class="feature-icon">B</div><h3>Double sécurisation</h3><p>Le lead est enregistré dans notre suivi interne puis transmis à la plateforme partenaire si un acheteur est disponible.</p></div>
+				<div class="feature-card"><div class="feature-icon">C</div><h3>Choix libre</h3><p>La demande n’oblige ni à accepter un rendez-vous ni à signer un devis ou un financement.</p></div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import communes from '../data/local-content.json';
+---
+
+<BaseLayout
+	title="Panneaux Solaires par Commune en Gironde (33)"
+	description="Trouvez les prix, la production solaire et les installateurs QualiPV RGE dans votre commune de Gironde. 140 communes du 33 analysées."
+>
+	<section class="page-hero">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span>›</span><span>Communes</span></nav>
+			<span class="eyebrow eyebrow-amber">Atlas solaire · département 33</span>
+			<h1>Le gisement solaire, commune par commune.</h1>
+			<p>140 communes de plus de 2 000 habitants avec production estimée, prix locaux, conseils d’urbanisme et sélection d’installateurs.</p>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container">
+			<label class="commune-search">
+				<span class="sr-only">Rechercher une commune</span>
+				<input type="search" placeholder="Rechercher Bordeaux, Mérignac, Libourne…" data-city-search />
+			</label>
+			<div class="city-grid" data-city-grid>
+				{communes.map((city) => (
+					<article class="city-card" data-city={city.name.toLowerCase()}>
+						<div class="city-card-header"><h2 style="font-size: 1.08rem; margin: 0"><a href={`/panneau-solaire-${city.slug}/`}>{city.name}</a></h2><span class="postal-pill">{city.postalCode}</span></div>
+						<p>{city.market.yieldPerKwc} kWh/kWc/an · {city.population.toLocaleString('fr-FR')} habitants</p>
+						<div class="city-card-footer"><a href={`/panneau-solaire-${city.slug}/`}>Prix & potentiel →</a><a href={`/installateur-solaire-${city.slug}/`}>Méthode installateur →</a></div>
+					</article>
+				))}
+			</div>
+			<p data-empty hidden style="text-align: center">Aucune commune ne correspond à cette recherche.</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	const search = document.querySelector<HTMLInputElement>('[data-city-search]');
+	const cards = [...document.querySelectorAll<HTMLElement>('[data-city]')];
+	const empty = document.querySelector<HTMLElement>('[data-empty]');
+	search?.addEventListener('input', () => {
+		const value = search.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+		let visible = 0;
+		cards.forEach((card) => {
+			const city = (card.dataset.city || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+			const matches = city.includes(value);
+			card.hidden = !matches;
+			if (matches) visible += 1;
+		});
+		if (empty) empty.hidden = visible > 0;
+	});
+</script>

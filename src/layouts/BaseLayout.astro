@@ -1,0 +1,102 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileStickyCta from '../components/MobileStickyCta.astro';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description: string;
+	canonical?: string;
+	image?: string;
+	noindex?: boolean;
+	schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+	ogType?: 'website' | 'article';
+	imageAlt?: string;
+	publishedTime?: string;
+	modifiedTime?: string;
+}
+
+const {
+	title,
+	description,
+	canonical = Astro.url.pathname,
+	image = '/images/hero-panneau-solaire-gironde.png',
+	noindex = false,
+	schema,
+	ogType = 'website',
+	imageAlt = 'Maison girondine équipée de panneaux solaires',
+	publishedTime,
+	modifiedTime,
+} = Astro.props;
+
+const siteUrl = 'https://panneau-solaire-gironde.fr';
+const canonicalObject = new URL(canonical, siteUrl);
+canonicalObject.search = '';
+canonicalObject.hash = '';
+if (canonicalObject.pathname !== '/' && !canonicalObject.pathname.endsWith('/')) {
+	canonicalObject.pathname += '/';
+}
+const canonicalUrl = canonicalObject.toString();
+const optimizedImage = image.endsWith('.png') ? image.replace(/\.png$/, '.webp') : image;
+const imageUrl = new URL(optimizedImage, siteUrl).toString();
+const preloadHero = canonicalObject.pathname === '/';
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#166534" />
+		<meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		{preloadHero && (
+			<link
+				rel="preload"
+				as="image"
+				href="/images/hero-panneau-solaire-gironde.webp"
+				type="image/webp"
+				fetchpriority="high"
+			/>
+		)}
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@10..48,75..100,400..800&family=Rubik:wght@400;500;600;700&family=Source+Code+Pro:wght@500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<meta property="og:type" content={ogType} />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:site_name" content="Panneau Solaire Gironde" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={imageUrl} />
+		<meta property="og:image:alt" content={imageAlt} />
+		{ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+		{ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageUrl} />
+		<meta name="twitter:image:alt" content={imageAlt} />
+		{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+		<script defer src="https://nhmvgsrwhjsjnpncpiaj.supabase.co/functions/v1/analytics-collect?script=1"></script>
+	</head>
+	<body class:list={{ 'has-mobile-cta': canonicalObject.pathname !== '/devis/' }}>
+		<a class="skip-link" href="#contenu">Aller au contenu</a>
+		<Header />
+		<main id="contenu">
+			<slot />
+		</main>
+		<Footer />
+		<MobileStickyCta />
+	</body>
+</html>

@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SolarSimulator from '../components/SolarSimulator.astro';
+import communes from '../data/local-content.json';
+
+const bordeaux = communes.find((city) => city.slug === 'bordeaux') || communes[0];
+const referenceYield = bordeaux.market.yieldPerKwc;
+const rows = [
+	['Kit 3 kWc · 8 panneaux', 'Maison moyenne, autoconsommation', '7 000 – 9 500 €'],
+	['Kit 6 kWc · 16 panneaux', 'Villa ou forte consommation', '12 000 – 16 000 €'],
+	['Kit 9 kWc · 24 panneaux', 'Grande villa + clim + piscine', '16 000 – 22 000 €'],
+	['Kit 12 kWc et plus', 'Autonomie maximale, grande surface', '20 000 – 30 000 €'],
+	['Batterie lithium LFP', 'Stockage utile 5 à 10 kWh', '4 000 – 8 000 €'],
+	['Micro-onduleurs', 'Gestion panneau par panneau', '+ 800 – 2 000 €'],
+	['Carport solaire', 'Abri voiture + recharge VE', '8 000 – 15 000 €'],
+	['Entretien annuel', 'Nettoyage + monitoring + contrôle', '100 – 200 €/an'],
+	['Remplacement onduleur', 'Électronique après 10 à 12 ans', '1 000 – 2 500 €'],
+];
+---
+
+<BaseLayout
+	title="Prix Panneaux Solaires Gironde 2026 — 3, 6, 9 kWc"
+	description="Tarifs 2026 des panneaux solaires en Gironde : prix 3, 6, 9 et 12 kWc, batterie, micro-onduleurs, carport et calcul de rentabilité."
+>
+	<section class="page-hero">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+			<span class="eyebrow eyebrow-amber">Données marché · Gironde 2026</span>
+			<h1>Prix des panneaux solaires dans le 33.</h1>
+			<p>Des budgets complets, comparables et reliés à une production réaliste. Le bon prix est celui qui maximise la valeur de chaque kWh sur 25 ans.</p>
+		</div>
+	</section>
+	<section class="section">
+		<div class="container content-layout">
+			<article class="prose">
+				<h2>Grille tarifaire photovoltaïque 2026</h2>
+				<p>Les montants ci-dessous correspondent à des fourchettes TTC usuelles pour une fourniture posée. L’accès, la charpente, l’intégration électrique et les options font varier le devis.</p>
+				<table>
+					<thead><tr><th>Solution</th><th>Usage</th><th>Prix TTC</th></tr></thead>
+					<tbody>{rows.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}</tbody>
+				</table>
+				<div class="data-callout"><strong>Règle de décision</strong>Comparez le coût actualisé du kWh produit, pas uniquement le prix par panneau. Deux devis identiques en puissance peuvent différer fortement en rendement, électronique et garanties.</div>
+				<h2>Ce qui est normalement inclus</h2>
+				<p>Un devis complet comprend les modules, l’onduleur ou les micro-onduleurs, la structure, les protections AC/DC, le câblage, la pose, la mise en service et les démarches précisées au contrat.</p>
+				<ul>
+					<li>Étude de calepinage, charge et ombrage</li>
+					<li>Demande préalable en mairie et dossier Enedis</li>
+					<li>Attestation Consuel selon la configuration</li>
+					<li>Monitoring avec accès propriétaire</li>
+					<li>Documentation et garanties des composants</li>
+				</ul>
+				<h2>Rentabilité : tester trois scénarios</h2>
+				<p>Le scénario prudent baisse la production de 10 % et limite la hausse du prix réseau. Le scénario central reprend les données locales. Le scénario haut valorise un pilotage efficace et une inflation énergétique plus forte.</p>
+				<p>Cette méthode évite de confondre une projection commerciale avec une décision d’investissement robuste.</p>
+			</article>
+			<aside class="sidebar-card">
+				<span class="eyebrow">Devis gratuits</span>
+				<h2>Votre prix exact dépend de votre toiture.</h2>
+				<p>Décrivez votre projet pour recevoir des devis adaptés à votre maison.</p>
+				<a class="button button-primary" href="/devis/">Demander mes devis →</a>
+				<div class="sidebar-metrics">
+					<div><span>PVGIS Bordeaux</span><strong>{referenceYield.toLocaleString('fr-FR')} kWh/kWc/an</strong></div>
+					<div><span>Budget d’entrée</span><strong>7 000 €</strong></div>
+					<div><span>Horizon</span><strong>25 ans</strong></div>
+				</div>
+			</aside>
+		</div>
+	</section>
+	<section class="section section-white">
+		<div class="container"><SolarSimulator city="Bordeaux" yieldPerKwc={referenceYield} /></div>
+	</section>
+</BaseLayout>

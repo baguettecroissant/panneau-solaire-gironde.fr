@@ -1,0 +1,6 @@
+# Variables à configurer dans Cloudflare Pages > Settings > Environment variables.
+# Ne jamais committer les valeurs réelles.
+VUD_API_KEY=
+# Renseigner la clé publishable Supabase actuelle ou, à défaut, l’ancienne clé anon JWT.
+SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_ANON_KEY=

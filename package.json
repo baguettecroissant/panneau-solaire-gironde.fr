@@ -1,0 +1,28 @@
+{
+  "name": "panneau-solaire-gironde.fr",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "fetch:cities": "node scripts/fetch-cities.mjs",
+		"sync:postal-cities": "node scripts/fetch-postal-cities.mjs",
+    "generate:local": "node scripts/generate-local-content.mjs",
+    "generate:data": "npm run fetch:cities && npm run generate:local",
+    "refresh:solar": "node scripts/fetch-cities.mjs --refresh-solar && node scripts/generate-local-content.mjs",
+    "verify:data": "node scripts/generate-local-content.mjs --check",
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "test": "node --test",
+    "audit:site": "node scripts/audit-site.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.1.3"
+  }
+}

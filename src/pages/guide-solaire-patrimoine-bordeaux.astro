@@ -1,0 +1,7 @@
+---
+import GuideArticle from '../components/GuideArticle.astro';
+import { guidesBySlug } from '../data/guides';
+const guide = guidesBySlug['panneaux-solaires-patrimoine-unesco-bordeaux'];
+---
+
+<GuideArticle guide={guide} canonical="/guide-solaire-patrimoine-bordeaux" />

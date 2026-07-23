@@ -1,0 +1,124 @@
+---
+import { ofPlace } from '../utils/french-place';
+
+interface City {
+	name: string;
+	postalCode: string;
+	latitude?: number;
+	longitude?: number;
+	market: {
+		yieldPerKwc: number;
+	};
+}
+
+interface Props {
+	city: City;
+}
+
+const { city } = Astro.props;
+const cityOf = ofPlace(city.name);
+const mapBounds = { minLongitude: -1.25, maxLongitude: 0.3, minLatitude: 44.1, maxLatitude: 45.58 };
+const project = (latitude: number, longitude: number) => ({
+	x: 70 + ((longitude - mapBounds.minLongitude) / (mapBounds.maxLongitude - mapBounds.minLongitude)) * 510,
+	y: 38 + ((mapBounds.maxLatitude - latitude) / (mapBounds.maxLatitude - mapBounds.minLatitude)) * 520,
+});
+const cityPosition = project(city.latitude ?? 44.8378, city.longitude ?? -0.5792);
+const regions = [
+	{ name: 'Bordeaux', detail: 'Métropole & Entre-deux-Mers', latitude: 44.8378, longitude: -0.5792 },
+	{ name: 'Médoc', detail: 'Façade estuarienne & presqu’île', latitude: 45.3071, longitude: -0.937 },
+	{ name: 'Libournais', detail: 'Vallées Dordogne & Isle', latitude: 44.9145, longitude: -0.2439 },
+	{ name: 'Bassin', detail: 'Arcachon & Val de l’Eyre', latitude: 44.6523, longitude: -1.1785 },
+	{ name: 'Sud-Gironde', detail: 'Langonnais & Bazadais', latitude: 44.553, longitude: -0.2494 },
+].map((region) => ({ ...region, ...project(region.latitude, region.longitude) }));
+const currentRegion = regions.reduce((nearest, region) => {
+	const nearestDistance = Math.hypot(nearest.latitude - (city.latitude ?? 44.8378), nearest.longitude - (city.longitude ?? -0.5792));
+	const regionDistance = Math.hypot(region.latitude - (city.latitude ?? 44.8378), region.longitude - (city.longitude ?? -0.5792));
+	return regionDistance < nearestDistance ? region : nearest;
+});
+---
+
+<section class="gironde-solar-map" aria-labelledby="gironde-solar-map-title">
+	<header class="solar-map-head">
+		<div>
+			<span class="eyebrow">Cartographie solaire locale</span>
+			<h2 id="gironde-solar-map-title">Situer {city.name} dans les grands bassins girondins</h2>
+		</div>
+		<div class="solar-map-city-result">
+			<small>Modèle pour {city.name}</small>
+			<strong>{city.market.yieldPerKwc.toLocaleString('fr-FR')} kWh/kWc/an</strong>
+		</div>
+	</header>
+
+	<div class="solar-map-layout">
+		<div class="solar-map-figure">
+			<svg viewBox="0 0 650 600" role="img" aria-labelledby="solar-map-svg-title solar-map-svg-desc">
+				<title id="solar-map-svg-title">Carte schématique du potentiel solaire de la Gironde</title>
+				<desc id="solar-map-svg-desc">Repères de Bordeaux, du Médoc, du Libournais, du Bassin d’Arcachon et du Sud-Gironde, avec la position {cityOf} calculée depuis ses coordonnées.</desc>
+				<defs>
+					<linearGradient id="gironde-solar-fill" x1="0" y1="1" x2="1" y2="0">
+						<stop offset="0" stop-color="#dcfce7" />
+						<stop offset="0.58" stop-color="#86efac" />
+						<stop offset="1" stop-color="#fde68a" />
+					</linearGradient>
+					<filter id="city-marker-shadow" x="-100%" y="-100%" width="300%" height="300%">
+						<feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#78350f" flood-opacity=".32" />
+					</filter>
+				</defs>
+
+				<g class="map-grid-lines" aria-hidden="true">
+					<path d="M70 150H580M70 260H580M70 370H580M70 480H580" />
+					<path d="M175 38V558M285 38V558M395 38V558M505 38V558" />
+				</g>
+
+				<path
+					class="gironde-outline"
+					d="M145 42L298 47 353 71 426 73 512 109 564 174 575 241 548 298 583 350 566 414 531 453 519 521 454 560 366 548 315 578 229 563 168 530 140 475 105 433 79 380 68 319 82 257 96 200 109 139 122 84Z"
+				/>
+				<path class="gironde-estuary" d="M145 42C174 70 199 105 219 146 240 190 255 231 279 269 294 293 299 305 298 319 282 311 267 296 254 276 230 237 214 198 194 158 176 120 154 80 132 55Z" />
+				<path class="gironde-river" d="M297 318C331 300 365 284 414 272" />
+				<path class="gironde-river" d="M297 318C326 346 359 382 411 411" />
+				<text class="water-label" x="185" y="128" transform="rotate(61 185 128)">Estuaire</text>
+
+				{regions.map((region) => (
+					<g class:list={['solar-region-marker', { 'is-active': region.name === currentRegion.name }]} transform={`translate(${region.x} ${region.y})`}>
+						<title>{region.name}, repère géographique schématique</title>
+						<circle r="14" />
+						<circle r="5" />
+						<text x="18" y="5">{region.name}</text>
+					</g>
+				))}
+
+				<g class="current-city-marker" transform={`translate(${cityPosition.x} ${cityPosition.y})`} filter="url(#city-marker-shadow)">
+					<title>{city.name}, commune actuellement étudiée</title>
+					<circle class="current-city-pulse" r="19" />
+					<circle class="current-city-dot" r="8" />
+				</g>
+			</svg>
+
+			<div class="solar-map-legend" aria-hidden="true">
+				<span><i class="legend-area"></i> Potentiel solaire modélisé</span>
+				<span><i class="legend-city"></i> {city.name}</span>
+			</div>
+		</div>
+
+		<div class="solar-zone-panel">
+			<h3>Cinq repères pour comparer</h3>
+			<ul>
+				{regions.map((region) => (
+					<li class:list={{ 'is-active': region.name === currentRegion.name }}>
+						<span class="solar-zone-dot" aria-hidden="true"></span>
+						<div>
+							<strong>{region.name}</strong>
+							<small>{region.detail}</small>
+						</div>
+						<b>Repère</b>
+					</li>
+				))}
+			</ul>
+			<div class="solar-map-note">
+				<strong>{city.name} se rattache ici au repère « {currentRegion.name} ».</strong>
+				<p>Cette visualisation situe les coordonnées communales par rapport à cinq repères géographiques. Le productible affiché plus haut provient de PVGIS ; la carte n’est ni cadastrale, ni une étude d’ensoleillement de la parcelle.</p>
+			</div>
+		</div>
+	</div>
+</section>

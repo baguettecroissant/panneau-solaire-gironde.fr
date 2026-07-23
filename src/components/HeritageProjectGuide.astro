@@ -1,0 +1,46 @@
+---
+import { ofPlace } from '../utils/french-place';
+
+interface Props {
+	city: string;
+}
+
+const { city } = Astro.props;
+const cityOf = ofPlace(city);
+---
+
+<section class="heritage-guide" aria-labelledby="heritage-guide-title">
+	<div class="heritage-guide-intro">
+		<span class="eyebrow eyebrow-amber">Urbanisme & patrimoine</span>
+		<h2 id="heritage-guide-title">Un projet solaire compatible avec le cadre bâti {cityOf}</h2>
+		<p>La présence d’un monument historique, d’un site patrimonial remarquable ou d’une règle locale ne rend pas automatiquement le photovoltaïque impossible. Elle demande surtout un dossier lisible et une implantation étudiée avant la commande.</p>
+		<div class="heritage-guide-callout">
+			<span aria-hidden="true">ABF</span>
+			<p><strong>L’Architecte des Bâtiments de France ne facture pas de “taxe solaire”.</strong> Lorsqu’un avis est requis, il intervient dans l’instruction du dossier d’urbanisme et peut conduire à adapter la visibilité, les teintes ou la disposition des modules.</p>
+		</div>
+		<a class="button button-secondary" href="/guide-solaire-patrimoine-bordeaux/">Lire le guide patrimoine Bordeaux & Gironde →</a>
+	</div>
+
+	<div class="heritage-steps">
+		<h3>Les démarches dans le bon ordre</h3>
+		<ol>
+			<li>
+				<span>01</span>
+				<div><strong>Qualifier la parcelle</strong><p>Interroger le service urbanisme de la mairie sur le PLU et les protections applicables à l’adresse exacte.</p></div>
+			</li>
+			<li>
+				<span>02</span>
+				<div><strong>Préparer une insertion sobre</strong><p>Réunir plan de toiture, photos, photomontage, teinte des cadres et visibilité depuis l’espace public.</p></div>
+			</li>
+			<li>
+				<span>03</span>
+				<div><strong>Déposer la déclaration préalable</strong><p>Transmettre le dossier en mairie ; l’avis patrimonial est sollicité pendant l’instruction lorsqu’il est nécessaire.</p></div>
+			</li>
+			<li>
+				<span>04</span>
+				<div><strong>Attendre la décision écrite</strong><p>Ne planifier la pose qu’après autorisation et intégrer au devis les éventuelles prescriptions reçues.</p></div>
+			</li>
+		</ol>
+		<p class="heritage-step-note">Les règles et délais dépendent de la parcelle. La mairie reste l’interlocuteur compétent pour confirmer la procédure applicable.</p>
+	</div>
+</section>

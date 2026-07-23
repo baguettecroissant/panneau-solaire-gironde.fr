@@ -1,0 +1,416 @@
+---
+interface Props {
+	compact?: boolean;
+	city?: string;
+	heading?: string;
+}
+
+const {
+	compact = false,
+	city = '',
+	heading = 'Demandez vos devis solaires gratuits',
+} = Astro.props;
+---
+
+<section class:list={['lead-form-shell', { compact }]} data-lead-form>
+	<div class="form-heading">
+		<span class="eyebrow eyebrow-amber">Devis gratuits · sans engagement</span>
+		<h2>{heading}</h2>
+		<p>3 minutes pour décrire votre projet, comparer des offres adaptées et estimer votre production.</p>
+	</div>
+	<div class="form-progress" aria-label="Progression du formulaire">
+		<div class="progress-bar"><span data-progress-bar></span></div>
+		<div class="progress-label"><span data-step-label>Étape 1 sur 4</span><strong data-progress-percent>25 %</strong></div>
+	</div>
+	<form novalidate data-form>
+		<input type="hidden" name="city" value={city} />
+		<input type="hidden" name="source_url" value="" data-source-url />
+		<input type="hidden" name="consent_timestamp" value="" data-consent-time />
+		<input type="hidden" name="submission_id" value="" data-submission-id />
+		<input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+		<fieldset class="form-step is-active" data-step="1">
+			<legend>Parlons de votre toiture</legend>
+			<div class="choice-grid">
+				<label class="choice-card">
+					<input type="radio" name="property_type" value="maison" required />
+					<span class="choice-icon">⌂</span>
+					<strong>Maison individuelle</strong>
+					<small>Résidence principale ou secondaire</small>
+				</label>
+				<label class="choice-card">
+					<input type="radio" name="property_type" value="professionnel" required />
+					<span class="choice-icon">▥</span>
+					<strong>Bâtiment professionnel</strong>
+					<small>Commerce, bureaux ou hangar</small>
+				</label>
+			</div>
+			<div class="field-grid">
+				<label>
+					<span>Surface de toiture disponible</span>
+					<select name="roof_surface" required>
+						<option value="">Sélectionner</option>
+						<option value="15-30">15 à 30 m²</option>
+						<option value="30-50">30 à 50 m²</option>
+						<option value="50+">Plus de 50 m²</option>
+						<option value="unknown">Je ne sais pas</option>
+					</select>
+				</label>
+				<label>
+					<span>Orientation principale</span>
+					<select name="orientation" required>
+						<option value="">Sélectionner</option>
+						<option value="sud">Sud</option>
+						<option value="sud-est">Sud-est</option>
+						<option value="sud-ouest">Sud-ouest</option>
+						<option value="est-ouest">Est / Ouest</option>
+						<option value="unknown">Je ne sais pas</option>
+					</select>
+				</label>
+			</div>
+		</fieldset>
+
+		<fieldset class="form-step" data-step="2">
+			<legend>Vos objectifs énergétiques</legend>
+			<div class="choice-grid choice-grid-three">
+				<label class="choice-card">
+					<input type="radio" name="project_goal" value="autoconsommation" required />
+					<span class="choice-icon">⚡</span>
+					<strong>Réduire mes factures</strong>
+					<small>Autoconsommation + vente du surplus</small>
+				</label>
+				<label class="choice-card">
+					<input type="radio" name="project_goal" value="batterie" required />
+					<span class="choice-icon">▰</span>
+					<strong>Gagner en autonomie</strong>
+					<small>Stockage sur batterie LFP</small>
+				</label>
+				<label class="choice-card">
+					<input type="radio" name="project_goal" value="revente" required />
+					<span class="choice-icon">↗</span>
+					<strong>Valoriser ma toiture</strong>
+					<small>Production et revente optimisées</small>
+				</label>
+			</div>
+			<div class="field-grid">
+				<label>
+					<span>Facture d’électricité mensuelle</span>
+					<select name="monthly_bill" required>
+						<option value="">Sélectionner</option>
+						<option value="80">Moins de 100 €</option>
+						<option value="130">100 à 160 €</option>
+						<option value="200">160 à 250 €</option>
+						<option value="300">Plus de 250 €</option>
+					</select>
+				</label>
+				<label>
+					<span>Équipements à alimenter</span>
+					<select name="equipment" required>
+						<option value="">Sélectionner</option>
+						<option value="standard">Usage domestique</option>
+						<option value="clim">Maison + climatisation</option>
+						<option value="ve">Maison + véhicule électrique</option>
+						<option value="pool">Maison + piscine</option>
+						<option value="all">Climatisation + piscine + VE</option>
+					</select>
+				</label>
+			</div>
+		</fieldset>
+
+		<fieldset class="form-step" data-step="3">
+			<legend>Où se situe le projet ?</legend>
+			<div class="field-grid">
+				<label>
+					<span>Code postal</span>
+					<input name="postal_code" inputmode="numeric" autocomplete="postal-code" pattern="33[0-9]{3}" maxlength="5" placeholder="33000" required data-postal-code />
+					<small>Le projet doit être situé en Gironde (33).</small>
+				</label>
+				<label>
+					<span>Commune</span>
+					<select name="project_city" autocomplete="address-level2" required disabled data-project-city data-preferred-city={city} aria-describedby="city-help">
+						<option value="">Saisissez d’abord votre code postal</option>
+					</select>
+					<small id="city-help" data-city-help>La commune sera proposée automatiquement.</small>
+				</label>
+			</div>
+			<label style="margin-bottom:18px">
+				<span>Adresse du projet</span>
+					<input name="address" autocomplete="street-address" placeholder="12 rue de la Mairie" minlength="5" required />
+				<small>Utilisée uniquement pour préparer votre demande de devis et la mise en relation.</small>
+			</label>
+			<label>
+				<span>Quand souhaitez-vous démarrer ?</span>
+				<select name="timeframe" required>
+					<option value="">Sélectionner</option>
+					<option value="immediat">Dès que possible</option>
+					<option value="3-months">Dans les 3 mois</option>
+					<option value="6-months">Dans les 6 mois</option>
+					<option value="information">Je compare les solutions</option>
+				</select>
+			</label>
+		</fieldset>
+
+		<fieldset class="form-step" data-step="4">
+			<legend>Recevez vos devis personnalisés</legend>
+			<div class="field-grid">
+				<label>
+					<span>Prénom</span>
+					<input name="first_name" autocomplete="given-name" required />
+				</label>
+				<label>
+					<span>Nom</span>
+					<input name="last_name" autocomplete="family-name" required />
+				</label>
+				<label>
+					<span>E-mail</span>
+					<input type="email" name="email" autocomplete="email" placeholder="vous@exemple.fr" required />
+				</label>
+				<label>
+					<span>Téléphone</span>
+					<input type="tel" name="phone" autocomplete="tel" pattern="^(?:0[1-9](?:[ .-]?[0-9]{2}){4}|[+]33[ .-]?[1-9](?:[ .-]?[0-9]{2}){4})$" placeholder="06 12 34 56 78" required />
+				</label>
+			</div>
+			<label class="consent">
+				<input type="checkbox" name="consent" value="true" required />
+				<span>J’accepte d’être contacté(e) par téléphone par ViteUnDevis.com et ses partenaires afin de qualifier ma demande de devis. <a href="/politique-confidentialite/">Voir les destinataires et la politique de confidentialité</a>.</span>
+			</label>
+			<p class="consent-notice">Les données sont collectées par panneau-solaire-gironde.fr en vue de vous mettre en relation avec des professionnels. Vous disposez du droit de vous inscrire sur la liste d’opposition au démarchage téléphonique <a href="https://www.bloctel.gouv.fr/" target="_blank" rel="noopener noreferrer">bloctel.gouv.fr</a>.</p>
+			<div class="trust-strip">
+				<span>🔒 Données sécurisées</span>
+				<span>✓ Qualification RGE à vérifier</span>
+				<span>✓ Aucun engagement</span>
+			</div>
+		</fieldset>
+
+		<p class="form-error" role="alert" aria-live="polite" data-form-error></p>
+		<div class="form-actions">
+			<button class="button button-ghost" type="button" data-prev hidden>← Retour</button>
+			<button class="button button-primary" type="button" data-next>Continuer →</button>
+			<button class="button button-primary" type="submit" data-submit hidden>Recevoir mes devis gratuits →</button>
+		</div>
+	</form>
+	<div class="form-success" data-success hidden>
+		<div class="success-orbit">✓</div>
+		<h2 tabindex="-1" data-success-title>Votre demande est bien enregistrée.</h2>
+		<p data-success-text>Merci. Son statut de transmission va être confirmé.</p>
+		<a class="button button-secondary" href="/guides/">Consulter nos guides</a>
+	</div>
+</section>
+
+<script>
+	const shells = document.querySelectorAll<HTMLElement>('[data-lead-form]');
+	shells.forEach((shell) => {
+		const form = shell.querySelector<HTMLFormElement>('[data-form]');
+		if (!form || form.dataset.ready) return;
+		form.dataset.ready = 'true';
+		let current = 1;
+		const steps = [...form.querySelectorAll<HTMLElement>('[data-step]')];
+		const next = form.querySelector<HTMLButtonElement>('[data-next]');
+		const prev = form.querySelector<HTMLButtonElement>('[data-prev]');
+		const submit = form.querySelector<HTMLButtonElement>('[data-submit]');
+		const error = form.querySelector<HTMLElement>('[data-form-error]');
+		const progressBar = shell.querySelector<HTMLElement>('[data-progress-bar]');
+		const progressPercent = shell.querySelector<HTMLElement>('[data-progress-percent]');
+		const stepLabel = shell.querySelector<HTMLElement>('[data-step-label]');
+		const source = form.querySelector<HTMLInputElement>('[data-source-url]');
+		const consentTime = form.querySelector<HTMLInputElement>('[data-consent-time]');
+		const submissionId = form.querySelector<HTMLInputElement>('[data-submission-id]');
+		if (source) source.value = window.location.href;
+		if (submissionId && !submissionId.value) {
+			if (typeof crypto.randomUUID === 'function') {
+				submissionId.value = crypto.randomUUID();
+			} else {
+				const bytes = crypto.getRandomValues(new Uint8Array(16));
+				bytes[6] = (bytes[6] & 0x0f) | 0x40;
+				bytes[8] = (bytes[8] & 0x3f) | 0x80;
+				const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+				submissionId.value = `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+			}
+		}
+		const params = new URLSearchParams(window.location.search);
+		const surfaceValue = Number(params.get('surface') || 0);
+		const billValue = Number(params.get('bill') || 0);
+		const roofSurface = form.querySelector<HTMLSelectElement>('[name="roof_surface"]');
+		const orientationField = form.querySelector<HTMLSelectElement>('[name="orientation"]');
+		const monthlyBill = form.querySelector<HTMLSelectElement>('[name="monthly_bill"]');
+		const postalCodeField = form.querySelector<HTMLInputElement>('[data-postal-code]');
+		const projectCityField = form.querySelector<HTMLSelectElement>('[data-project-city]');
+		const cityHelp = form.querySelector<HTMLElement>('[data-city-help]');
+		let postalDirectoryPromise: Promise<Record<string, string[]>> | undefined;
+		let postalLookupVersion = 0;
+		if (roofSurface && surfaceValue) roofSurface.value = surfaceValue < 30 ? '15-30' : surfaceValue <= 50 ? '30-50' : '50+';
+		if (orientationField && params.has('orientation')) {
+			const orientationLabel = params.get('orientation') || '';
+			orientationField.value = orientationLabel.includes('Sud-est') ? 'sud-est' : orientationLabel.includes('Sud-ouest') ? 'sud-ouest' : orientationLabel.includes('Est') ? 'est-ouest' : 'sud';
+		}
+		if (monthlyBill && billValue) monthlyBill.value = billValue < 100 ? '80' : billValue < 160 ? '130' : billValue < 250 ? '200' : '300';
+
+		const resetCityField = (message: string) => {
+			if (!projectCityField) return;
+			projectCityField.replaceChildren(new Option('Saisissez d’abord votre code postal', ''));
+			projectCityField.disabled = true;
+			if (cityHelp) cityHelp.textContent = message;
+		};
+
+		const loadPostalDirectory = () => {
+			postalDirectoryPromise ||= fetch('/data/gironde-postal-cities.json', { cache: 'force-cache' })
+				.then((response) => {
+					if (!response.ok) throw new Error('Référentiel indisponible');
+					return response.json() as Promise<Record<string, string[]>>;
+				});
+			return postalDirectoryPromise;
+		};
+
+		const updateCityFromPostalCode = async () => {
+			if (!postalCodeField || !projectCityField) return;
+			const postalCode = postalCodeField.value.replace(/\D/g, '').slice(0, 5);
+			if (postalCodeField.value !== postalCode) postalCodeField.value = postalCode;
+			const version = ++postalLookupVersion;
+			if (postalCode.length < 5) return resetCityField('La commune sera proposée automatiquement après 5 chiffres.');
+			if (!/^33\d{3}$/.test(postalCode)) return resetCityField('Le projet doit être situé en Gironde (33).');
+
+			if (cityHelp) cityHelp.textContent = 'Recherche de la commune…';
+			try {
+				const directory = await loadPostalDirectory();
+				if (version !== postalLookupVersion) return;
+				const cities = directory[postalCode] || [];
+				if (!cities.length) return resetCityField('Aucune commune de Gironde trouvée pour ce code postal.');
+
+				const preferredCity = projectCityField.dataset.preferredCity || '';
+				projectCityField.replaceChildren();
+				if (cities.length > 1) projectCityField.add(new Option('Choisir votre commune', ''));
+				for (const cityName of cities) projectCityField.add(new Option(cityName, cityName));
+				projectCityField.disabled = false;
+				if (cities.length === 1) {
+					projectCityField.value = cities[0];
+					if (cityHelp) cityHelp.textContent = `Commune détectée : ${cities[0]}.`;
+				} else {
+					projectCityField.value = cities.includes(preferredCity) ? preferredCity : '';
+					if (cityHelp) cityHelp.textContent = `${cities.length} communes correspondent à ce code postal : choisissez la vôtre.`;
+				}
+			} catch {
+				if (version === postalLookupVersion) resetCityField('La recherche de commune est momentanément indisponible. Merci de réessayer.');
+			}
+		};
+
+		postalCodeField?.addEventListener('input', () => void updateCityFromPostalCode());
+		postalCodeField?.addEventListener('blur', () => void updateCityFromPostalCode());
+
+		const render = () => {
+			steps.forEach((step) => step.classList.toggle('is-active', Number(step.dataset.step) === current));
+			if (prev) prev.hidden = current === 1;
+			if (next) next.hidden = current === 4;
+			if (submit) submit.hidden = current !== 4;
+			const percent = current * 25;
+			if (progressBar) progressBar.style.width = `${percent}%`;
+			if (progressPercent) progressPercent.textContent = `${percent} %`;
+			if (stepLabel) stepLabel.textContent = `Étape ${current} sur 4`;
+			if (error) error.textContent = '';
+		};
+
+		const validateStep = () => {
+			const active = steps[current - 1];
+			if (current === 3 && projectCityField?.disabled) {
+				if (error) error.textContent = 'Saisissez un code postal valide pour afficher la commune.';
+				postalCodeField?.focus();
+				return false;
+			}
+			const fields = [...active.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select')];
+			for (const field of fields) {
+				if (!field.checkValidity()) {
+					field.reportValidity();
+					if (error) {
+						error.textContent =
+							field.name === 'postal_code' && field.value
+								? 'Le code postal doit comporter 5 chiffres et commencer par 33.'
+								: 'Merci de compléter cette étape avant de continuer.';
+					}
+					return false;
+				}
+			}
+			return true;
+		};
+
+		next?.addEventListener('click', () => {
+			if (!validateStep()) return;
+			current = Math.min(4, current + 1);
+			render();
+			shell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			requestAnimationFrame(() => steps[current - 1]?.querySelector<HTMLElement>('input, select')?.focus());
+		});
+
+		prev?.addEventListener('click', () => {
+			current = Math.max(1, current - 1);
+			render();
+			requestAnimationFrame(() => steps[current - 1]?.querySelector<HTMLElement>('input, select')?.focus());
+		});
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			if (!validateStep() || !submit) return;
+			submit.disabled = true;
+			submit.textContent = 'Transmission sécurisée…';
+			if (consentTime) consentTime.value = new Date().toISOString();
+			const payload = Object.fromEntries(new FormData(form).entries());
+			try {
+				const response = await fetch('/api/lead/', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(payload),
+				});
+				const contentType = response.headers.get('content-type') || '';
+				const result = contentType.includes('application/json')
+					? await response.json()
+					: { success: false, message: 'Le service de devis a retourné une réponse invalide. Merci de réessayer.' };
+				if (!response.ok || !result.success) throw new Error(result.message || 'Erreur de transmission');
+				form.hidden = true;
+				shell.querySelector<HTMLElement>('.form-progress')?.setAttribute('hidden', '');
+				shell.querySelector<HTMLElement>('.form-heading')?.setAttribute('hidden', '');
+				const success = shell.querySelector<HTMLElement>('[data-success]');
+				if (success) {
+					success.hidden = false;
+					const successTitle = success.querySelector<HTMLElement>('[data-success-title]');
+					const successText = success.querySelector<HTMLElement>('[data-success-text]');
+					if (result.outcome === 'sent') {
+						if (successTitle) successTitle.textContent = 'Votre demande a été transmise.';
+						if (successText) successText.textContent = 'Merci. Le partenaire destinataire peut maintenant qualifier votre projet solaire.';
+					} else if (result.outcome === 'no_buyer') {
+						if (successTitle) successTitle.textContent = 'Votre demande est bien enregistrée.';
+						if (successText) successText.textContent = 'Aucune mise en relation immédiate n’a été confirmée. La demande reste enregistrée pour suivi.';
+					} else {
+						if (successTitle) successTitle.textContent = 'Votre demande est bien enregistrée.';
+						if (successText) successText.textContent = 'La transmission au partenaire n’a pas été confirmée immédiatement. La demande reste disponible pour suivi.';
+					}
+					requestAnimationFrame(() => successTitle?.focus());
+				}
+				const analyticsEndpoint = 'https://nhmvgsrwhjsjnpncpiaj.supabase.co/functions/v1/analytics-collect';
+				const analyticsQuery = new URLSearchParams(location.search);
+				analyticsQuery.set('_lead_outcome', String(result.outcome || 'captured'));
+				if (result.request_id) analyticsQuery.set('_lead_request_id', String(result.request_id));
+				if (result.devis_id) analyticsQuery.set('_lead_devis_id', String(result.devis_id));
+				const analyticsPayload = JSON.stringify({
+					domain: location.hostname,
+					pathname: location.pathname,
+					referrer: document.referrer || '',
+					screen_width: screen.width,
+					screen_height: screen.height,
+					language: navigator.language || '',
+					title: document.title || '',
+					query_string: analyticsQuery.toString(),
+					event_name: 'lead_submitted',
+					outcome: result.outcome || 'captured',
+					request_id: result.request_id || null,
+					devis_id: result.devis_id || null,
+					tracking_sync: result.tracking_sync || 'unknown',
+				});
+				if (navigator.sendBeacon) navigator.sendBeacon(analyticsEndpoint, analyticsPayload);
+				else fetch(analyticsEndpoint, { method: 'POST', body: analyticsPayload, keepalive: true }).catch(() => {});
+			} catch (err) {
+				if (error) error.textContent = err instanceof Error ? err.message : 'Une erreur est survenue. Merci de réessayer.';
+				submit.disabled = false;
+				submit.textContent = 'Recevoir mes devis gratuits →';
+			}
+		});
+		render();
+	});
+</script>

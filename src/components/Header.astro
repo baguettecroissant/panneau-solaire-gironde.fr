@@ -1,0 +1,63 @@
+---
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const links = [
+	{ href: '/', label: 'Accueil', active: path === '/' },
+	{ href: '/tarifs/', label: 'Prix & rentabilité', active: path === '/tarifs/' },
+	{ href: '/communes/', label: 'Communes', active: path === '/communes/' },
+	{
+		href: '/guides/',
+		label: 'Guides',
+		active:
+			path.startsWith('/guides/') ||
+			path === '/aides-panneau-solaire-33/' ||
+			path === '/guide-solaire-patrimoine-bordeaux/',
+	},
+];
+---
+
+<header class="site-header" data-header>
+	<div class="container nav-shell">
+		<a class="brand" href="/" aria-label="Panneau Solaire Gironde — accueil">
+			<span class="brand-mark" aria-hidden="true">🍃</span>
+			<span class="brand-copy">
+				<strong>Panneau Solaire</strong>
+				<small>Gironde · 33</small>
+			</span>
+		</a>
+		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu" data-nav-toggle>
+			<span></span><span></span><span></span>
+			<span class="sr-only" data-nav-label>Ouvrir le menu</span>
+		</button>
+		<nav id="main-nav" class="main-nav" aria-label="Navigation principale" data-nav>
+			{links.map((link) => (
+				<a class:list={{ active: link.active }} href={link.href} aria-current={link.active ? 'page' : undefined}>{link.label}</a>
+			))}
+			<a class="nav-cta" href="/devis/" aria-current={path === '/devis/' ? 'page' : undefined}>Devis gratuits <span aria-hidden="true">→</span></a>
+		</nav>
+	</div>
+</header>
+
+<script>
+	const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+	const nav = document.querySelector<HTMLElement>('[data-nav]');
+	const label = toggle?.querySelector<HTMLElement>('[data-nav-label]');
+	const setOpen = (open: boolean, restoreFocus = false) => {
+		if (!toggle || !nav) return;
+		toggle.setAttribute('aria-expanded', String(open));
+		toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+		if (label) label.textContent = open ? 'Fermer le menu' : 'Ouvrir le menu';
+		nav.classList.toggle('is-open', open);
+		document.body.classList.toggle('nav-open', open);
+		if (restoreFocus) toggle.focus();
+	};
+	toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+	nav?.addEventListener('click', (event) => {
+		if ((event.target as Element).closest('a')) setOpen(false);
+	});
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') setOpen(false, true);
+	});
+	document.addEventListener('click', (event) => {
+		if (toggle?.getAttribute('aria-expanded') === 'true' && !(event.target as Element).closest('[data-header]')) setOpen(false);
+	});
+</script>
